@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conscious Dialogue Compass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9F9F9;
+            color: #1D1D1F;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            border: 1px solid #E5E5E5;
+        }
+        .category-button {
+            transition: all 0.2s ease-in-out;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .category-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl sm:text-6xl font-bold text-gray-800 tracking-tight">
+                <a href="https://solodads.com/" class="text-gray-800 hover:text-gray-600 transition-colors duration-200">Conscious Dialogue Compass</a>
+            </h1>
+            <p class="mt-2 text-md text-gray-500">From the creators of <a href="https://solodads.com/" class="underline hover:text-gray-700 transition-colors duration-200">solodads.com</a></p>
+            <p class="mt-4 text-xl text-gray-500">A Practical Guide for Dads</p>
+        </header>
+
+        <div class="mb-8">
+            <input type="text" id="searchInput" placeholder="Search scenarios..." class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 transition-colors text-lg">
+        </div>
+
+        <div id="category-buttons" class="flex flex-wrap justify-center gap-3 mb-12">
+            <button data-category="all" class="category-button px-5 py-2 bg-gray-100 text-gray-800 hover:bg-gray-200">All</button>
+            <button data-category="Everyday Parenting Challenges" class="category-button px-5 py-2 bg-green-50 text-green-700 hover:bg-green-100">Everyday Challenges</button>
+            <button data-category="Emotional & Behavioral Struggles" class="category-button px-5 py-2 bg-blue-50 text-blue-700 hover:bg-blue-100">Emotional Struggles</button>
+            <button data-category="Co-Parenting & Communication" class="category-button px-5 py-2 bg-yellow-50 text-yellow-700 hover:bg-yellow-100">Co-Parenting</button>
+            <button data-category="School & Social Life" class="category-button px-5 py-2 bg-purple-50 text-purple-700 hover:bg-purple-100">School & Social Life</button>
+            <button data-category="Special Moments & Transitions" class="category-button px-5 py-2 bg-red-50 text-red-700 hover:bg-red-100">Special Moments</button>
+        </div>
+
+        <main id="scenariosContainer" class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"></main>
+    </div>
+
+    <script>
+        const data = [
+            { "category": "Everyday Parenting Challenges", "scenario": "The Morning Rush Meltdown", "situation": "It’s morning, you’re in a hurry, and your child refuses to get dressed or eat breakfast.", "impulsiveReaction": "Yelling or threatening punishment.", "consciousPath": ["Stop and breathe.", "Acknowledge frustration.", "Offer small choices.", "Make it a game."], "phrases": ["“We’re in a hurry, I know it’s not fun. Let’s see how we can make it faster.”", "“Which shirt do you want, blue or red?”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Homework Battle", "situation": "Your child resists starting homework.", "impulsiveReaction": "Threatening punishment.", "consciousPath": ["Validate difficulty.", "Break it into small steps.", "Offer presence."], "phrases": ["“What feels hardest right now?”", "“Let’s just start with one question.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Screen Time Struggle", "situation": "Refuses to turn off the tablet when time is up.", "impulsiveReaction": "Snatching the device.", "consciousPath": ["Give time warnings.", "Connect before correcting.", "Offer next activity.", "State boundary calmly."], "phrases": ["“Five more minutes, then we switch.”", "“After this, we’ll go outside.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Public Tantrum", "situation": "Meltdown in a store or restaurant.", "impulsiveReaction": "Yelling or dragging them away.", "consciousPath": ["Move to a quiet spot.", "Stay present and silent.", "Offer comfort.", "Name the emotion afterward."], "phrases": ["“I’m here. When you’re ready, we’ll talk.”", "“It’s okay to feel angry.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Bedtime Resistance", "situation": "Refuses to go to bed.", "impulsiveReaction": "Arguing or forcing.", "consciousPath": ["Create a soothing ritual.", "Offer limited choices.", "Stay calm and consistent."], "phrases": ["“One story or two?”", "“It’s bedtime now; I’ll stay until you settle.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Picky Eating", "situation": "Refuses the meal.", "impulsiveReaction": "Forcing or bribing.", "consciousPath": ["Respect preferences without special cooking.", "Offer small tastes and healthy options.", "Keep mealtime neutral."], "phrases": ["“You don’t have to like it—just try a bite.”", "“Carrots or cucumbers?”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Chore Refusal", "situation": "Pushback on chores.", "impulsiveReaction": "Threats.", "consciousPath": ["Validate feelings.", "Explain the “why.”", "Agree on timing."], "phrases": ["“I know you don’t feel like it.”", "“When will you do it—before or after snack?”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Forgotten School Items", "situation": "Leaves homework or supplies at home.", "impulsiveReaction": "Scolding.", "consciousPath": ["Problem-solve together.", "Build a prep routine."], "phrases": ["“How can we remember next time?”", "“Let’s make a checklist.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Sibling Fights", "situation": "Arguing or hitting.", "impulsiveReaction": "Taking sides or yelling.", "consciousPath": ["Separate calmly.", "Hear both sides.", "Teach repair."], "phrases": ["“I’ll hear each of you one at a time.”", "“What’s a fair solution?”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Slow to Get Ready for School", "situation": "Dragging feet.", "impulsiveReaction": "Nagging.", "consciousPath": ["Use a visual checklist.", "Reward completion with connection."], "phrases": ["“What’s first on your list?”", "“When you’re ready, we get extra reading time.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Bedwetting Accident", "situation": "Wets the bed.", "impulsiveReaction": "Frustration or shame.", "consciousPath": ["Normalize.", "Clean up calmly.", "Quiet reassurance."], "phrases": ["“Accidents happen.”", "“You’re safe; we’ll sort it.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Messy Room", "situation": "Room is a disaster.", "impulsiveReaction": "Yelling or doing it yourself.", "consciousPath": ["Break into zones.", "Set a timer.", "Make it a challenge."], "phrases": ["“Let’s start with just the floor.”", "“Beat the 10-minute timer!”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Toothbrushing Refusal", "situation": "Avoids brushing.", "impulsiveReaction": "Forcing.", "consciousPath": ["Brush together.", "Use fun tools and music."], "phrases": ["“Race me to two minutes.”", "“Blue or red toothbrush?”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Not Sharing Toys", "situation": "Won’t share.", "impulsiveReaction": "Forcing sharing.", "consciousPath": ["Teach turn-taking.", "Use a timer."], "phrases": ["“You may finish your turn; then it’s theirs.”", "“Two-minute timer starts now.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Won’t Leave the Playground", "situation": "Refuses to go.", "impulsiveReaction": "Dragging away.", "consciousPath": ["Countdown and transition.", "Offer next positive step."], "phrases": ["“Five-minute countdown.”", "“Snack at home after this.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Rushing Homework Sloppily", "situation": "Ignores instructions.", "impulsiveReaction": "Criticizing harshly.", "consciousPath": ["Praise effort, correct one part at a time.", "Model quality."], "phrases": ["“You tried—let’s fix this section.”", "“Show me your best on just this line.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Bedtime Stalling", "situation": "“One more drink! One more story!”", "impulsiveReaction": "Losing patience.", "consciousPath": ["Set clear limit.", "Stick to the ritual."], "phrases": ["“Last sip, then lights out.”", "“We’ll continue the story tomorrow.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Store Toy Tantrum", "situation": "Wants a toy now.", "impulsiveReaction": "Giving in or yelling.", "consciousPath": ["Hold the boundary.", "Offer empathy and alternative."], "phrases": ["“I know you want it; we’re not buying today.”", "“Add it to a wish list.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Not Listening", "situation": "Ignores instructions.", "impulsiveReaction": "Raising voice.", "consciousPath": ["Get to eye level.", "Use calm, specific cues."], "phrases": ["“Look at me so you can hear.”", "“Please put shoes on now.”"] },
+            { "category": "Everyday Parenting Challenges", "scenario": "Constant Interruptions", "situation": "Interrupts when you’re busy.", "impulsiveReaction": "Snapping.", "consciousPath": ["Acknowledge quickly.", "Teach a waiting signal or “hand on arm” cue."], "phrases": ["“I hear you—give me one minute.”", "“Thank you for waiting.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Angry Outburst", "situation": "Screaming or door slamming.", "impulsiveReaction": "Yelling louder.", "consciousPath": ["Allow cool-down.", "Reconnect and name emotion.", "Teach safe outlets."], "phrases": ["“I’ll talk when you’re calm.”", "“Anger’s okay; slamming isn’t.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Withdrawal", "situation": "Shuts down emotionally.", "impulsiveReaction": "Forcing conversation.", "consciousPath": ["Offer quiet presence.", "Invite later."], "phrases": ["“I’m here when you’re ready.”", "“Want to sit together in silence?”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Attention-Seeking", "situation": "Whining, exaggerating.", "impulsiveReaction": "Criticizing.", "consciousPath": ["Give positive attention proactively.", "Redirect to meaningful activity."], "phrases": ["“I can play with you after dinner.”", "“Let’s build something together.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Jealousy", "situation": "Jealous of sibling/peer.", "impulsiveReaction": "Dismissing.", "consciousPath": ["Validate envy.", "Highlight their strengths."], "phrases": ["“It’s okay to feel jealous.”", "“Let’s name your superpowers.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Fear of Darkness", "situation": "Afraid at night.", "impulsiveReaction": "Teasing or ignoring.", "consciousPath": ["Normalize fear.", "Night light and check-ins."], "phrases": ["“I’ll check on you in 10 minutes.”", "“You’re safe; I’m nearby.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Pre-School Anxiety", "situation": "Stomachaches before school.", "impulsiveReaction": "Forcing quickly.", "consciousPath": ["Hear worries.", "Plan small steps."], "phrases": ["“What part worries you most?”", "“One step at a time.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Overexcitement", "situation": "Too wired to settle.", "impulsiveReaction": "Shouting to stop.", "consciousPath": ["Channel into movement.", "Transition with breathing."], "phrases": ["“Jump with me for 30 seconds—then slow breaths.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Lying", "situation": "Hides a bad grade/accident.", "impulsiveReaction": "Shaming.", "consciousPath": ["Seek the “why.”", "Reinforce honesty + repair plan."], "phrases": ["“You can always tell me the truth.”", "“We’ll fix this together.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Talking Back", "situation": "Rude responses.", "impulsiveReaction": "Power struggle.", "consciousPath": ["Hold boundary on tone.", "Revisit when calm."], "phrases": ["“I’ll listen when you speak respectfully.”", "“Try that again.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Social Media Overuse", "situation": "Constant scrolling.", "impulsiveReaction": "Grabbing the phone.", "consciousPath": ["Set clear rules and tech-free zones.", "Offer alternatives."], "phrases": ["“Phones off at dinner.”", "“Let’s play a game instead.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Perfectionism", "situation": "Meltdown over mistakes.", "impulsiveReaction": "Minimizing.", "consciousPath": ["Validate effort.", "Reframe mistakes as learning."], "phrases": ["“Mistakes mean you’re growing.”", "“What did this teach you?”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Excessive Shyness", "situation": "Avoids speaking.", "impulsiveReaction": "Pushing.", "consciousPath": ["Respect comfort zone.", "Encourage tiny steps."], "phrases": ["“You can try a small step today.”", "“I’m proud of your courage.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Risky Stunts", "situation": "Dangerous behavior.", "impulsiveReaction": "Yelling in fear.", "consciousPath": ["Explain risk calmly.", "Offer safer options."], "phrases": ["“That could hurt you—try this instead.”", "“Your safety matters most.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Constant Complaints", "situation": "“It’s not fair!”", "impulsiveReaction": "Dismissing.", "consciousPath": ["Listen briefly.", "Redirect to solutions."], "phrases": ["“I hear you. What’s one helpful step?”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Focus Difficulties", "situation": "Hard to concentrate.", "impulsiveReaction": "Scolding.", "consciousPath": ["Short tasks with breaks.", "Reduce distractions."], "phrases": ["“Let’s do five minutes, then a stretch.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Sneaking Sweets", "situation": "Hides candy.", "impulsiveReaction": "Anger.", "consciousPath": ["Discuss moderation.", "Provide structured treats."], "phrases": ["“Treats happen after dinner.”", "“Let’s balance snacks.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Ignoring Boundaries", "situation": "Breaks rules.", "impulsiveReaction": "Punish only.", "consciousPath": ["Restate rule + reason.", "Consistent follow-through."], "phrases": ["“This rule keeps us safe.”", "“Here’s what happens next.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Refusing Help", "situation": "“I don’t need you!”", "impulsiveReaction": "Forcing help.", "consciousPath": ["Respect autonomy.", "Offer backup."], "phrases": ["“I’ll be nearby if you need me.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Negative Self-Talk", "situation": "“I’m stupid.”", "impulsiveReaction": "Dismissing.", "consciousPath": ["Acknowledge pain.", "Replace with truth."], "phrases": ["“Everyone struggles sometimes.”", "“Name three things you did well.”"] },
+            { "category": "Emotional & Behavioral Struggles", "scenario": "Won’t Apologize", "situation": "Refuses to say sorry.", "impulsiveReaction": "Forcing apology.", "consciousPath": ["Model apology.", "Teach impact and repair."], "phrases": ["“How do you think they felt?”", "“What repair could help?”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Criticism in Front of Child", "situation": "Co-parent criticizes you in front of your child.", "impulsiveReaction": "Defend angrily.", "consciousPath": ["Protect child; move discussion private.", "Focus on solutions."], "phrases": ["“This isn’t the time—let’s talk later.”", "“We both love you.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Last-Minute Schedule Change", "situation": "Plans canceled suddenly.", "impulsiveReaction": "Accusations.", "consciousPath": ["Stay calm.", "Document.", "Propose makeup time."], "phrases": ["“When can we reschedule?”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Silent Treatment", "situation": "No replies to important messages.", "impulsiveReaction": "Angry texts.", "consciousPath": ["Keep brief.", "Set a response deadline."], "phrases": ["“Please reply by [date] so we can plan.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Manipulative Comments", "situation": "“Dad doesn’t care about you.”", "impulsiveReaction": "Badmouthing back.", "consciousPath": ["Reassure love.", "Keep child out of conflict."], "phrases": ["“You never need to choose.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Gift Loyalty Trap", "situation": "Over-gifting to win favor.", "impulsiveReaction": "Competing with gifts.", "consciousPath": ["Teach values and gratitude.", "Emphasize time together."], "phrases": ["“Experiences matter most.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Money Disputes", "situation": "Arguing over expenses.", "impulsiveReaction": "Fight in front of child.", "consciousPath": ["Discuss privately.", "Use written records."], "phrases": ["“Let’s keep finances off the child’s radar.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Different House Rules", "situation": "Bedtime/tech rules differ.", "impulsiveReaction": "Criticizing the other home.", "consciousPath": ["Acknowledge difference.", "Keep your home consistent."], "phrases": ["“In our home, bedtime is 9:00.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Overruling Your Decision", "situation": "Co-parent reverses you.", "impulsiveReaction": "Confronting on the spot.", "consciousPath": ["Address later privately.", "Stay steady with child."], "phrases": ["“We’ll discuss this adult-to-adult.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Missed Pickup", "situation": "No-show pickup.", "impulsiveReaction": "Venting to child.", "consciousPath": ["Comfort child.", "Avoid blame."], "phrases": ["“I know you’re disappointed. I’m here.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "New Partner Introduced Fast", "situation": "New partner appears quickly.", "impulsiveReaction": "Angry confrontation.", "consciousPath": ["Focus on child’s pace.", "Express concerns respectfully."], "phrases": ["“Let’s discuss how to ease the transition.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Inconsistent Communication", "situation": "Random replies across apps.", "impulsiveReaction": "Frustration.", "consciousPath": ["Suggest one platform."], "phrases": ["“Let’s use [app/email] to keep it clear.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Public Argument", "situation": "Conflict at school event.", "impulsiveReaction": "Heated words.", "consciousPath": ["Pause.", "Postpone."], "phrases": ["“Not here. We’ll talk later.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Child as Messenger", "situation": "Messages sent through child.", "impulsiveReaction": "Accepting the pattern.", "consciousPath": ["Insist on direct contact."], "phrases": ["“Please message me directly.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Blaming You for Behavior", "situation": "“It’s your fault they act out.”", "impulsiveReaction": "Defensiveness.", "consciousPath": ["Stay factual.", "Focus on joint support."], "phrases": ["“How can we both help them?”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Genuine Emergency Change", "situation": "Real last-minute crisis.", "impulsiveReaction": "Refusing help angrily.", "consciousPath": ["Be flexible if possible.", "Clarify expectations."], "phrases": ["“I can help today—next time, more notice.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Triangulation via Child", "situation": "“Mom said I don’t have to.”", "impulsiveReaction": "Arguing about mom.", "consciousPath": ["Clarify your household rule.", "Speak to co-parent directly."], "phrases": ["“Here our rule is…”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Controlling Activities", "situation": "Co-parent dictates sports/school.", "impulsiveReaction": "Power struggle.", "consciousPath": ["Include child’s voice.", "Negotiate fairly."], "phrases": ["“Let’s ask what they prefer.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "“The Child Said…”", "situation": "Using child’s words as proof.", "impulsiveReaction": "Defensive denial.", "consciousPath": ["Don’t interrogate child.", "Clarify adult-to-adult."], "phrases": ["“Let’s verify this together.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Not Informed About Events", "situation": "You miss school updates.", "impulsiveReaction": "Angry confrontation.", "consciousPath": ["Connect with school.", "Request shared calendar."], "phrases": ["“Please share events so we both show up.”"] },
+            { "category": "Co-Parenting & Communication", "scenario": "Child in the Middle", "situation": "Feels torn between parents.", "impulsiveReaction": "Blaming the other parent.", "consciousPath": ["Reassure love.", "Keep neutral."], "phrases": ["“This is adult stuff—you don’t have to worry.”"] },
+            { "category": "School & Social Life", "scenario": "Bullying at School", "situation": "Child reports teasing or harm.", "impulsiveReaction": "“Fight back!”", "consciousPath": ["Listen fully.", "Reassure safety.", "Contact school calmly."], "phrases": ["“Thank you for telling me.”", "“We’ll keep you safe.”"] },
+            { "category": "School & Social Life", "scenario": "Poor Grades", "situation": "Brings home low marks.", "impulsiveReaction": "Scolding.", "consciousPath": ["Focus on effort.", "Plan study steps."], "phrases": ["“Grades don’t define you.”", "“Let’s improve one skill.”"] },
+            { "category": "School & Social Life", "scenario": "Homework Avoidance", "situation": "Won’t start any work.", "impulsiveReaction": "Threats.", "consciousPath": ["Time-box (5 minutes).", "Encourage and sit nearby."], "phrases": ["“Let’s begin with five minutes.”"] },
+            { "category": "School & Social Life", "scenario": "Peer Pressure", "situation": "Risky choices to fit in.", "impulsiveReaction": "Lecturing.", "consciousPath": ["Explore outcomes.", "Build decision skills."], "phrases": ["“What might happen if…?”", "“What choice fits your values?”"] },
+            { "category": "School & Social Life", "scenario": "Friend Conflict", "situation": "Falling-out with a friend.", "impulsiveReaction": "Taking sides.", "consciousPath": ["Teach repair steps.", "Role-play apologies."], "phrases": ["“How can you fix this?”", "“What’s a fair next step?”"] },
+            { "category": "School & Social Life", "scenario": "School Refusal", "situation": "Won’t go to school.", "impulsiveReaction": "Forcing.", "consciousPath": ["Find root cause.", "Gradual return plan."], "phrases": ["“What worries you today?”", "“One step at a time.”"] },
+            { "category": "School & Social Life", "scenario": "Comparing to Peers", "situation": "“Everyone is better than me.”", "impulsiveReaction": "“Stop that talk.”", "consciousPath": ["Validate feelings.", "Name strengths."], "phrases": ["“Let’s list three strengths.”"] },
+            { "category": "School & Social Life", "scenario": "Exam Stress", "situation": "Anxiety before tests.", "impulsiveReaction": "“Just study more.”", "consciousPath": ["Teach calm routines.", "Focus on progress."], "phrases": ["“Breathe, then review.”", "“You’ve improved already.”"] },
+            { "category": "School & Social Life", "scenario": "Teacher Complaint", "situation": "Report of misbehavior.", "impulsiveReaction": "Punish immediately.", "consciousPath": ["Hear both sides.", "Plan responsibility steps."], "phrases": ["“What happened from your view?”"] },
+            { "category": "School & Social Life", "scenario": "Cheating Incident", "situation": "Caught cheating.", "impulsiveReaction": "Shame or anger.", "consciousPath": ["Reaffirm honesty.", "Create a study plan."], "phrases": ["“We fix it and do better.”"] },
+            { "category": "School & Social Life", "scenario": "Feeling Excluded", "situation": "Left out by peers.", "impulsiveReaction": "Overreacting to other kids.", "consciousPath": ["Empathize.", "Encourage new connections."], "phrases": ["“You’ll find true friends.”", "“Let’s invite someone over.”"] },
+            { "category": "School & Social Life", "scenario": "Sports Loss Disappointment", "situation": "Upset after losing.", "impulsiveReaction": "Criticism.", "consciousPath": ["Celebrate effort.", "Extract lessons."], "phrases": ["“I’m proud of your effort.”", "“What did you learn?”"] },
+            { "category": "School & Social Life", "scenario": "Betrayed by Friends", "situation": "Trust broken.", "impulsiveReaction": "Overprotecting.", "consciousPath": ["Validate pain.", "Teach boundaries."], "phrases": ["“Real friends show respect.”", "“You’ll spot red flags sooner.”"] },
+            { "category": "School & Social Life", "scenario": "First Crush", "situation": "Shares romantic feelings.", "impulsiveReaction": "Teasing.", "consciousPath": ["Listen respectfully.", "Offer guidance if asked."], "phrases": ["“Thanks for trusting me.”", "“I’m here if you want advice.”"] },
+            { "category": "School & Social Life", "scenario": "Cyberbullying", "situation": "Hurtful online messages.", "impulsiveReaction": "Take devices away.", "consciousPath": ["Validate feelings.", "Save evidence; report."], "phrases": ["“This isn’t your fault.”", "“We’ll handle it together.”"] },
+            { "category": "School & Social Life", "scenario": "Overscheduled Child", "situation": "Too many activities.", "impulsiveReaction": "“Just keep going.”", "consciousPath": ["Prioritize and cut back.", "Protect downtime."], "phrases": ["“Which activity matters most?”"] },
+            { "category": "School & Social Life", "scenario": "Not Participating in Class", "situation": "Refuses to engage.", "impulsiveReaction": "Scolding.", "consciousPath": ["Explore the barrier.", "Plan small steps."], "phrases": ["“What would help you try once today?”"] },
+            { "category": "School & Social Life", "scenario": "Plagiarism", "situation": "Copies work.", "impulsiveReaction": "Anger.", "consciousPath": ["Teach integrity and pride.", "Support original effort."], "phrases": ["“Your voice matters.”", "“Let’s build your own idea.”"] },
+            { "category": "School & Social Life", "scenario": "Bullying Others", "situation": "Your child bullies.", "impulsiveReaction": "Severe punishment only.", "consciousPath": ["Explore the cause.", "Teach empathy + repair."], "phrases": ["“How did they feel?”", "“What repair can you make?”"] },
+            { "category": "School & Social Life", "scenario": "Skipping School", "situation": "Misses classes.", "impulsiveReaction": "Harsh punishment.", "consciousPath": ["Understand why.", "Rebuild trust and plan."], "phrases": ["“Tell me what led to this.”", "“We’ll fix it together.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Goodbye After Visits", "situation": "Child cries when leaving.", "impulsiveReaction": "Overpromising.", "consciousPath": ["Validate sadness.", "Create a goodbye ritual."], "phrases": ["“I’ll miss you; see you Friday.”", "“Our hug carries us both.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Missing the Other Parent", "situation": "Says they miss mom/dad.", "impulsiveReaction": "Feeling rejected.", "consciousPath": ["Welcome the feeling.", "Encourage sharing."], "phrases": ["“It’s okay to miss them.”", "“You can love us both.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Moving Homes", "situation": "New house transition.", "impulsiveReaction": "Ignoring stress.", "consciousPath": ["Involve them in setup.", "Keep routines stable."], "phrases": ["“Choose a decoration for your room.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Split Holidays", "situation": "Two-home celebrations.", "impulsiveReaction": "Complaining.", "consciousPath": ["Emphasize love, not logistics.", "Create new traditions."], "phrases": ["“You get to celebrate twice.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Introducing a New Partner", "situation": "Meeting someone new.", "impulsiveReaction": "Rushing bonding.", "consciousPath": ["Go slow; respect pace."], "phrases": ["“Get to know them in your time.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Step-Sibling Tensions", "situation": "Blended family friction.", "impulsiveReaction": "Forcing harmony.", "consciousPath": ["Give space and shared activities.", "Acknowledge everyone’s place."], "phrases": ["“It takes time to blend.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Puberty Changes", "situation": "Mood swings, distance.", "impulsiveReaction": "Criticism.", "consciousPath": ["Normalize changes.", "Offer open talks."], "phrases": ["“I’m here if you want to talk.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "First Sleepover", "situation": "Nervous about staying away.", "impulsiveReaction": "Forcing.", "consciousPath": ["Prepare together.", "Safety plan and check-ins."], "phrases": ["“Call me anytime.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Starting High School", "situation": "Big transition nerves.", "impulsiveReaction": "“You’ll be fine.”", "consciousPath": ["Validate and share your story.", "Plan the first week."], "phrases": ["“New is hard; you’ll adjust.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Graduation Day", "situation": "Major milestone.", "impulsiveReaction": "Centering co-parent conflict.", "consciousPath": ["Keep focus on child."], "phrases": ["“Today celebrates your work.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "New Sports Team", "situation": "Fear of fitting in.", "impulsiveReaction": "“Just do it.”", "consciousPath": ["Encourage small social steps.", "Attend practices together."], "phrases": ["“Everyone feels new at first.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "First Job Interview", "situation": "Teen is anxious.", "impulsiveReaction": "Pressure.", "consciousPath": ["Do mock interviews.", "Highlight strengths."], "phrases": ["“Let’s practice questions.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Child’s Illness", "situation": "Health scare.", "impulsiveReaction": "Showing panic.", "consciousPath": ["Stay calm and factual.", "Reassure safety."], "phrases": ["“We’ll face this together.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Saying No to a Party", "situation": "Upset about your refusal.", "impulsiveReaction": "Lecturing.", "consciousPath": ["Validate disappointment.", "Offer alternative plan."], "phrases": ["“I know you’re upset—let’s plan something else.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Learning to Drive", "situation": "Teaching your teen.", "impulsiveReaction": "Criticizing.", "consciousPath": ["Coach calmly.", "Praise progress."], "phrases": ["“Everyone makes early mistakes.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "First Date", "situation": "Nervous about dating.", "impulsiveReaction": "Teasing.", "consciousPath": ["Respect privacy.", "Offer guidance on safety/respect."], "phrases": ["“I’m here if you want advice.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Breakup Heartache", "situation": "Teen is heartbroken.", "impulsiveReaction": "“You’ll get over it.”", "consciousPath": ["Acknowledge pain.", "Provide comfort + time."], "phrases": ["“This really hurts. I’m here.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Big Family Event", "situation": "Weddings/reunions stress.", "impulsiveReaction": "Over-controlling.", "consciousPath": ["Prep together.", "Plan coping breaks."], "phrases": ["“If it’s too much, signal me.”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Leaving for College", "situation": "Child moving out.", "impulsiveReaction": "Clinging or guilt.", "consciousPath": ["Celebrate independence.", "Set connection rituals."], "phrases": ["“I’m proud of you.”", "“Weekly call?”"] },
+            { "category": "Special Moments & Transitions", "scenario": "Loss of a Loved One", "situation": "Family bereavement.", "impulsiveReaction": "Hiding your emotions or rushing “back to normal.”", "consciousPath": ["Name the loss and feelings.", "Share memories and create a ritual.", "Keep routines with gentle flexibility."], "phrases": ["“It’s okay to feel sad and miss them.”", "“Let’s remember one thing we loved about them.”"] }
+        ];
+
+        const scenariosContainer = document.getElementById('scenariosContainer');
+        const searchInput = document.getElementById('searchInput');
+        const categoryButtons = document.querySelectorAll('#category-buttons button');
+        const categoryColors = {
+            "Everyday Parenting Challenges": "text-green-700",
+            "Emotional & Behavioral Struggles": "text-blue-700",
+            "Co-Parenting & Communication": "text-yellow-700",
+            "School & Social Life": "text-purple-700",
+            "Special Moments & Transitions": "text-red-700",
+            "all": "text-gray-800"
+        };
+        const categoryBgColors = {
+            "Everyday Parenting Challenges": "bg-green-50",
+            "Emotional & Behavioral Struggles": "bg-blue-50",
+            "Co-Parenting & Communication": "bg-yellow-50",
+            "School & Social Life": "bg-purple-50",
+            "Special Moments & Transitions": "bg-red-50",
+            "all": "bg-gray-100"
+        };
+
+        function renderScenarios(filteredData) {
+            scenariosContainer.innerHTML = '';
+            if (filteredData.length === 0) {
+                scenariosContainer.innerHTML = '<p class="text-center text-gray-500 mt-8">Nessun risultato trovato.</p>';
+                return;
+            }
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('card', 'flex', 'flex-col');
+                const categoryTextColor = categoryColors[item.category] || categoryColors['all'];
+                const categoryBgColor = categoryBgColors[item.category] || categoryBgColors['all'];
+                card.innerHTML = `
+                    <div class="flex-grow">
+                        <span class="inline-block text-sm font-semibold px-3 py-1 rounded-full ${categoryBgColor} ${categoryTextColor}">${item.category}</span>
+                        <h3 class="text-2xl font-bold mt-3 mb-2">${item.scenario}</h3>
+                        <p class="text-gray-600 mb-4 font-semibold">The Situation:</p>
+                        <p class="text-gray-700 mb-4">${item.situation}</p>
+                        <p class="text-red-500 font-bold mb-2">Impulsive Reaction:</p>
+                        <p class="text-gray-700 italic mb-4">${item.impulsiveReaction}</p>
+                        <p class="text-green-600 font-bold mb-2">Conscious Path:</p>
+                        <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1">
+                            ${item.consciousPath.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="mt-auto">
+                        <p class="text-blue-500 font-bold mb-2">Useful Phrases:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            ${item.phrases.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                scenariosContainer.appendChild(card);
+            });
+        }
+
+        function filterScenarios(category, query) {
+            const lowerCaseQuery = query.toLowerCase();
+            const filtered = data.filter(item => {
+                const categoryMatch = category === 'all' || item.category === category;
+                const queryMatch = item.scenario.toLowerCase().includes(lowerCaseQuery) ||
+                                   item.situation.toLowerCase().includes(lowerCaseQuery) ||
+                                   item.impulsiveReaction.toLowerCase().includes(lowerCaseQuery) ||
+                                   item.consciousPath.some(p => p.toLowerCase().includes(lowerCaseQuery)) ||
+                                   item.phrases.some(p => p.toLowerCase().includes(lowerCaseQuery));
+                return categoryMatch && queryMatch;
+            });
+            renderScenarios(filtered);
+        }
+
+        let currentCategory = 'all';
+        searchInput.addEventListener('input', (e) => {
+            filterScenarios(currentCategory, e.target.value);
+        });
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const newCategory = e.target.dataset.category;
+                currentCategory = newCategory;
+                filterScenarios(currentCategory, searchInput.value);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderScenarios(data);
+        });
+    </script>
+</body>
+</html>
